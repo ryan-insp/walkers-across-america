@@ -1,28 +1,12 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import type { ProgressData, RoutePoint } from '@/lib/types'
 
 const MapClient = dynamic(() => import('./MapClient'), { ssr: false })
 
-type RoutePoint = {
-  id?: string | number
-  name: string
-  lat: number
-  lng: number
-  order_index: number
-  cumulative_mile_marker?: number
-  point_type?: string
-}
-
-type Progress = {
-  current_position?: {
-    lat: number
-    lng: number
-  } | null
-}
-
 type MapSectionProps = {
-  progress: Progress
+  progress: ProgressData
   routePoints: RoutePoint[]
 }
 
