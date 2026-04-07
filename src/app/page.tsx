@@ -42,7 +42,7 @@ export default async function HomePage() {
 
     if (challengeRes.data) {
       challenge = challengeRes.data
-      const challengeId = challenge.id
+      const challengeId = challengeRes.data.id
 
       const activitiesRes = await supabase
         .from('daily_activity')
