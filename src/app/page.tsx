@@ -42,11 +42,12 @@ export default async function HomePage() {
 
     if (challengeRes.data) {
       challenge = challengeRes.data
+      const challengeId = challenge.id
 
       const activitiesRes = await supabase
         .from('daily_activity')
         .select('*')
-        .eq('challenge_id', challenge.id)
+        .eq('challenge_id', challengeId)
         .order('activity_date')
 
       activities = activitiesRes.data ?? []
