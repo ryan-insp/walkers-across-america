@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: 'Inter', system-ui, sans-serif;
+    --border: rgba(255, 255, 255, 0.06);
+    --border-hover: rgba(255, 255, 255, 0.10);
+    --green: #2EFF8B;
+    --green-dark: #1DBE6A;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #0B0D0C;
+    color: #F5F7F6;
+    font-family: var(--font-inter);
+  }
+
+  /* Mapbox overrides */
+  .mapboxgl-map { font-family: var(--font-inter) !important; }
+  .mapboxgl-popup-content {
+    background: #151917 !important;
+    color: #F5F7F6 !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 12px !important;
+    padding: 10px 14px !important;
+    font-family: var(--font-inter) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+  }
+  .mapboxgl-popup-tip { display: none !important; }
+  .mapboxgl-popup-close-button {
+    color: #6B726F !important;
+    font-size: 16px !important;
+    padding: 4px 8px !important;
+  }
+  .mapboxgl-ctrl-logo { opacity: 0.25 !important; filter: invert(1) !important; }
+  .mapboxgl-ctrl-attrib { opacity: 0.25 !important; filter: invert(1) !important; }
+  .mapboxgl-ctrl-group {
+    background: rgba(21,25,23,0.9) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+  }
+  .mapboxgl-ctrl-group button {
+    background: transparent !important;
+    border-bottom-color: rgba(255,255,255,0.06) !important;
+  }
+  .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon {
+    filter: invert(1) opacity(0.5) !important;
+  }
+  .mapboxgl-ctrl-group button:hover .mapboxgl-ctrl-icon {
+    filter: invert(1) opacity(0.9) !important;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  /* Green glow for the main miles number */
+  .miles-glow {
+    text-shadow:
+      0 0 60px rgba(46, 255, 139, 0.12),
+      0 0 120px rgba(46, 255, 139, 0.06);
+  }
+
+  /* Premium card hover */
+  .card-hover {
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.10) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  /* Site container */
+  .site-container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  @media (max-width: 1024px) {
+    .site-container { padding-left: 24px; padding-right: 24px; }
+  }
+  @media (max-width: 640px) {
+    .site-container { padding-left: 20px; padding-right: 20px; }
+  }
+}

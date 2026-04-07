@@ -1,0 +1,47 @@
+<svg width="520" height="64" viewBox="0 0 520 64" xmlns="http://www.w3.org/2000/svg">
+  <text
+    x="0"
+    y="24"
+    fill="#F5F7F6"
+    font-family="Inter, system-ui, -apple-system"
+    font-size="22"
+    font-style="italic"
+    font-weight="700"
+    letter-spacing="-0.02em"
+  >
+    Ryan’s
+  </text>
+
+  <text
+    x="78"
+    y="24"
+    fill="#F5F7F6"
+    font-family="Inter, system-ui, -apple-system"
+    font-size="18"
+    font-weight="700"
+    letter-spacing="0.12em"
+  >
+    WALK ACROSS AMERICA
+  </text>
+
+  <text
+    x="360"
+    y="24"
+    fill="#F5F7F6"
+    font-family="Inter, system-ui, -apple-system"
+    font-size="18"
+    font-weight="700"
+    letter-spacing="0.12em"
+  >
+    2026
+  </text>
+
+  <line x1="0" y1="42" x2="380" y2="42" stroke="#F5F7F6" stroke-width="2" />
+  <line x1="380" y1="42" x2="430" y2="42" stroke="#2EFF8B" stroke-width="2" />
+
+  <circle cx="438" cy="42" r="8" fill="#2EFF8B" fill-opacity="0.15"/>
+  <path
+    d="M438 30C432.925 30 429 33.925 429 39C429 45.5 438 55 438 55C438 55 447 45.5 447 39C447 33.925 443.075 30 438 30ZM438 42C436.343 42 435 40.657 435 39C435 37.343 436.343 36 438 36C439.657 36 441 37.343 441 39C441 40.657 439.657 42 438 42Z"
+    fill="#2EFF8B"
+  />
+</svg>
