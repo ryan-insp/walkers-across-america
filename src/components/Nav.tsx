@@ -42,9 +42,9 @@ export default function Nav() {
             flexShrink: 0,
           }}
         >
-          <a style={{ textDecoration: 'none', color: 'inherit' }}>Map</a>
-          <a style={{ textDecoration: 'none', color: 'inherit' }}>Stats</a>
-          <a style={{ textDecoration: 'none', color: 'inherit' }}>Admin →</a>
+          <a href="#map" style={{ textDecoration: 'none', color: 'inherit' }}>Map</a>
+          <a href="#stats" style={{ textDecoration: 'none', color: 'inherit' }}>Stats</a>
+          <a href="/admin" style={{ textDecoration: 'none', color: 'inherit' }}>Admin →</a>
         </nav>
       </div>
     </header>

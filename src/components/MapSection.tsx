@@ -13,6 +13,7 @@ type MapSectionProps = {
 export default function MapSection({ progress, routePoints }: MapSectionProps) {
   return (
     <section
+      id="map"
       style={{
         maxWidth: 1200,
         margin: '0 auto',

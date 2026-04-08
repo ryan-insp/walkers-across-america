@@ -62,6 +62,7 @@ export default function StatsGrid({
 
   return (
     <section
+      id="stats"
       style={{
         maxWidth: 1200,
         margin: '0 auto',
