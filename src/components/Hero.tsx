@@ -51,7 +51,7 @@ export default function Hero({
           marginBottom: 6
         }}
       >
-        {milesWalked}
+        {milesWalked.toFixed(1)}
       </div>
 
       <div
