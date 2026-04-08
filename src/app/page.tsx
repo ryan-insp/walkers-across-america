@@ -1,5 +1,6 @@
 import { createServiceClient } from '@/lib/supabase/server'
-import { computeProgress } from '@/lib/progress'
+import { computeProgress, formatPace } from '@/lib/progress'
+import { format, parse } from 'date-fns'
 import type { Challenge, DailyActivity, RoutePoint, Milestone } from '@/lib/types'
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
@@ -94,7 +95,15 @@ export default async function HomePage() {
             ? `+${progress.ahead_behind_miles.toFixed(1)} mi ahead`
             : `${Math.abs(progress.ahead_behind_miles).toFixed(1)} mi behind`
         }
-        etaText={progress.estimated_arrival_date ?? 'Start walking to calculate'}
+        isAhead={progress.ahead_behind_miles >= 0}
+        targetPace={formatPace(progress.target_pace_miles_per_day)}
+        actualPace={formatPace(progress.actual_pace_miles_per_day)}
+        etaShort={
+          progress.estimated_arrival_date && progress.estimated_arrival_date !== 'Complete'
+            ? format(parse(progress.estimated_arrival_date, 'MMMM d, yyyy', new Date()), 'MMM d')
+            : progress.estimated_arrival_date
+        }
+        targetDate={format(parse(challenge.end_date, 'yyyy-MM-dd', new Date()), 'MMMM d, yyyy')}
         currentPositionTitle={progress.current_location_name.split(',')[0]}
         currentPositionSubtitle={progress.current_location_name.split(',').slice(1).join(',').trim()}
       />

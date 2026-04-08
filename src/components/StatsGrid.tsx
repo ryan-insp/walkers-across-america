@@ -5,7 +5,11 @@ type StatsGridProps = {
   totalSteps?: number
   percentComplete?: number
   paceDeltaText?: string
-  etaText?: string
+  isAhead?: boolean
+  targetPace?: string
+  actualPace?: string
+  etaShort?: string | null
+  targetDate?: string
   currentPositionTitle?: string
   currentPositionSubtitle?: string
 }
@@ -14,8 +18,12 @@ export default function StatsGrid({
   totalMiles = 0,
   totalSteps = 0,
   percentComplete = 0,
-  paceDeltaText = '762.7 mi behind',
-  etaText = 'Start walking to estimate',
+  paceDeltaText = 'On pace',
+  isAhead = true,
+  targetPace = '8.2 mi/day',
+  actualPace = '0.0 mi/day',
+  etaShort = null,
+  targetDate = 'December 31, 2026',
   currentPositionTitle = 'Playa Vista',
   currentPositionSubtitle = 'Los Angeles, CA'
 }: StatsGridProps) {
@@ -80,32 +88,28 @@ export default function StatsGrid({
           gap: 20
         }}
       >
+        {/* Miles Walked */}
         <div style={cardStyle}>
           <div style={labelStyle}>Miles Walked</div>
-          <div style={valueStyle}>{totalMiles}</div>
+          <div style={valueStyle}>{totalMiles.toFixed(1)}</div>
           <div style={subStyle}>Target: 3,000 mi</div>
         </div>
 
+        {/* Steps Taken */}
         <div style={cardStyle}>
           <div style={labelStyle}>Steps Taken</div>
           <div style={valueStyle}>{totalSteps.toLocaleString()}</div>
           <div style={subStyle}>Target: 6,000,000 steps</div>
         </div>
 
+        {/* Complete */}
         <div style={cardStyle}>
           <div style={labelStyle}>Complete</div>
-          <div
-            style={{
-              ...valueStyle,
-              color: '#2EFF8B',
-              textShadow: '0 0 14px rgba(46,255,139,0.16)'
-            }}
-          >
-            {percentComplete.toFixed(1)}%
-          </div>
+          <div style={valueStyle}>{percentComplete.toFixed(1)}%</div>
           <div style={subStyle}>Progress of full route</div>
         </div>
 
+        {/* Pace vs Goal */}
         <div style={cardStyle}>
           <div style={labelStyle}>Pace vs Goal</div>
           <div
@@ -124,10 +128,10 @@ export default function StatsGrid({
             style={{
               fontSize: 15,
               lineHeight: 1.45,
-              color: '#F87171'
+              color: isAhead ? '#4ADE80' : '#F87171'
             }}
           >
-            Behind target pace
+            {isAhead ? 'Ahead of target pace' : 'Behind target pace'}
           </div>
           <div
             style={{
@@ -137,16 +141,18 @@ export default function StatsGrid({
               marginTop: 6
             }}
           >
-            Target: 8.2 mi/day · Actual: 0.0 mi/day
+            Target: {targetPace} · Actual: {actualPace}
           </div>
         </div>
 
+        {/* Est. Arrival */}
         <div style={cardStyle}>
           <div style={labelStyle}>Est. Arrival</div>
-          <div style={valueStyle}>—</div>
-          <div style={subStyle}>{etaText}</div>
+          <div style={valueStyle}>{etaShort ?? '—'}</div>
+          <div style={subStyle}>Target: {targetDate}</div>
         </div>
 
+        {/* Current Position */}
         <div style={cardStyle}>
           <div style={labelStyle}>Current Position</div>
           <div
