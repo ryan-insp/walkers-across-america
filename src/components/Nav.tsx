@@ -26,10 +26,9 @@ export default function Nav() {
           src="/logo.png"
           alt="Ryan's Walk Across America 2026"
           style={{
-            height: 44,
+            height: 56,
             width: 'auto',
             display: 'block',
-            mixBlendMode: 'screen',
           }}
         />
 
