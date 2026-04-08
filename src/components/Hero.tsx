@@ -3,11 +3,13 @@
 type HeroProps = {
   milesWalked?: number
   percentComplete?: number
+  currentLocation?: string
 }
 
 export default function Hero({
   milesWalked = 0,
-  percentComplete = 0
+  percentComplete = 0,
+  currentLocation = 'Playa Vista'
 }: HeroProps) {
   return (
     <section
@@ -122,8 +124,8 @@ export default function Hero({
             background: '#4ADE80'
           }}
         />
-        <span style={{ color: '#E6F4EA', fontWeight: 500 }}>Start</span>
-        <span style={{ color: '#8A9390' }}>Playa Vista</span>
+        <span style={{ color: '#E6F4EA', fontWeight: 500 }}>Now</span>
+        <span style={{ color: '#8A9390' }}>{currentLocation}</span>
       </div>
     </section>
   )

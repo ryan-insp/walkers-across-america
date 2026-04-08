@@ -82,6 +82,7 @@ export default async function HomePage() {
       <Hero
         milesWalked={progress.total_miles}
         percentComplete={progress.percent_complete}
+        currentLocation={progress.current_location_name.split(',')[0]}
       />
       <MapSection routePoints={routePoints} progress={progress} />
       <StatsGrid
