@@ -25,7 +25,12 @@ export default function Nav() {
         <img
           src="/logo.png"
           alt="Ryan's Walk Across America 2026"
-          style={{ height: 36, width: 'auto', display: 'block' }}
+          style={{
+            height: 44,
+            width: 'auto',
+            display: 'block',
+            mixBlendMode: 'screen',
+          }}
         />
 
         <nav
