@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState(process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? '')
+  const [email, setEmail] = useState('')
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
