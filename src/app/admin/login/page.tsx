@@ -81,9 +81,6 @@ export default function AdminLoginPage() {
               </button>
             </div>
 
-            <p className="text-center text-text-muted text-xs">
-              Only authorized for ryandisraeli@gmail.com
-            </p>
           </form>
         )}
       </div>
