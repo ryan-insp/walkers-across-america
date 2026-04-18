@@ -187,6 +187,35 @@ export function getCurrentLocationName(
 }
 
 /**
+ * Reverse geocodes a lat/lng to a "City, ST" string using Mapbox.
+ * Cached for 1 hour via Next.js fetch cache.
+ * Returns null if the request fails — callers should fall back to checkpoint name.
+ */
+export async function reverseGeocode(
+  lat: number,
+  lng: number,
+  mapboxToken: string
+): Promise<string | null> {
+  try {
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxToken}&types=place&limit=1`
+    const res = await fetch(url, { next: { revalidate: 3600 } })
+    if (!res.ok) return null
+    const data = await res.json()
+    const feature = data.features?.[0]
+    if (!feature) return null
+
+    const city = feature.text as string
+    const regionCtx = (feature.context ?? []).find((c: { id: string }) =>
+      c.id.startsWith('region')
+    )
+    const stateCode = regionCtx?.short_code?.replace('US-', '') ?? ''
+    return stateCode ? `${city}, ${stateCode}` : city
+  } catch {
+    return null
+  }
+}
+
+/**
  * Returns the next upcoming checkpoint name, or null if at/past the finish.
  */
 export function getNextLocationName(

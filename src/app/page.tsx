@@ -1,6 +1,7 @@
 import { createServiceClient } from '@/lib/supabase/server'
 import { computeProgress, formatPace } from '@/lib/progress'
-import { format, parse } from 'date-fns'
+import { reverseGeocode } from '@/lib/route-data'
+import { format, parse, parseISO } from 'date-fns'
 import type { Challenge, DailyActivity, RoutePoint, Milestone } from '@/lib/types'
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
@@ -71,6 +72,26 @@ export default async function HomePage() {
 
   const progress = computeProgress(activities, challenge, routePoints)
 
+  // Find the most recent synced_at across all activity records
+  const lastSyncedAt = activities.reduce<string | null>((latest, a) => {
+    if (!a.synced_at) return latest
+    if (!latest) return a.synced_at
+    return a.synced_at > latest ? a.synced_at : latest
+  }, null)
+
+  // Reverse geocode the interpolated position for a precise current city name.
+  // Falls back to the last-passed checkpoint name if geocoding fails.
+  if (progress.current_position && process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
+    const geocoded = await reverseGeocode(
+      progress.current_position.lat,
+      progress.current_position.lng,
+      process.env.NEXT_PUBLIC_MAPBOX_TOKEN
+    )
+    if (geocoded) {
+      progress.current_location_name = geocoded
+    }
+  }
+
   // Attach latest milestone text to progress
   if (milestones.length > 0) {
     progress.latest_milestone_text = milestones[0].title
@@ -120,6 +141,14 @@ export default async function HomePage() {
         <p style={{ fontSize: 13, color: '#6B726F', margin: 0, letterSpacing: '0.01em' }}>
           Ryan&apos;s Walk Across America 2026 &nbsp;·&nbsp; Playa Vista, CA → Manhattan, NY
         </p>
+        {lastSyncedAt && (
+          <p style={{ fontSize: 11, color: '#3D4440', margin: '8px 0 0', letterSpacing: '0.02em' }}>
+            Last synced{' '}
+            {format(parseISO(lastSyncedAt), 'MMM d')}
+            {' at '}
+            {format(parseISO(lastSyncedAt), 'h:mm a')}
+          </p>
+        )}
       </footer>
     </main>
   )
