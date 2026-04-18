@@ -1,9 +1,22 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+
 type FunFactProps = {
   location: string
-  fact: string
 }
 
-export default function FunFact({ location, fact }: FunFactProps) {
+export default function FunFact({ location }: FunFactProps) {
+  const [fact, setFact] = useState<string>('')
+
+  useEffect(() => {
+    if (!location) return
+    fetch(`/api/fun-fact?location=${encodeURIComponent(location)}`)
+      .then((r) => r.json())
+      .then((data) => setFact(data.fact ?? ''))
+      .catch(() => {})
+  }, [location])
+
   if (!fact) return null
 
   return (
