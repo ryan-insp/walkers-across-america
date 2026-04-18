@@ -9,6 +9,8 @@ import MapSection from '@/components/MapSection'
 import StatsGrid from '@/components/StatsGrid'
 import MilestonesFeed from '@/components/MilestonesFeed'
 import { getMockData } from '@/lib/mock-data'
+import { getFunFact } from '@/lib/fun-fact'
+import FunFact from '@/components/FunFact'
 
 // Revalidate every 5 minutes
 export const revalidate = 300
@@ -92,6 +94,9 @@ export default async function HomePage() {
     }
   }
 
+  // Generate daily fun fact for the current location
+  const funFact = await getFunFact(progress.current_location_name)
+
   // Attach latest milestone text to progress
   if (milestones.length > 0) {
     progress.latest_milestone_text = milestones[0].title
@@ -129,6 +134,7 @@ export default async function HomePage() {
         currentPositionTitle={progress.current_location_name.split(',')[0]}
         currentPositionSubtitle={progress.current_location_name.split(',').slice(1).join(',').trim()}
       />
+      <FunFact location={progress.current_location_name} fact={funFact} />
       <MilestonesFeed milestones={milestones} />
       <footer
         style={{
