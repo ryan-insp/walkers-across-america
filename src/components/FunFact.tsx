@@ -35,7 +35,6 @@ export default function FunFact({ location }: FunFactProps) {
           border: '1px solid rgba(255,255,255,0.07)',
           borderRadius: 16,
           padding: '40px 48px',
-          maxWidth: 760,
           position: 'relative',
           overflow: 'hidden',
         }}
