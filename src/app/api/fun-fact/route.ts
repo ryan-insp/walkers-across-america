@@ -3,8 +3,11 @@ export async function GET(request: Request) {
   const location = searchParams.get('location') ?? ''
 
   const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey || !location) {
-    return Response.json({ fact: '' })
+  if (!location) {
+    return Response.json({ fact: '', debug: 'no location' })
+  }
+  if (!apiKey) {
+    return Response.json({ fact: '', debug: 'no api key' })
   }
 
   try {
@@ -29,20 +32,18 @@ export async function GET(request: Request) {
 
     if (!res.ok) {
       const body = await res.text()
-      console.error(`[fun-fact] Anthropic error ${res.status}: ${body}`)
-      return Response.json({ fact: '' })
+      return Response.json({ fact: '', debug: `anthropic ${res.status}: ${body}` })
     }
 
     const data = await res.json()
     const fact = (data.content?.[0]?.text as string) ?? ''
 
-    return Response.json({ fact }, {
+    return Response.json({ fact, debug: 'ok' }, {
       headers: {
         'Cache-Control': 's-maxage=86400, stale-while-revalidate',
       },
     })
   } catch (err) {
-    console.error('[fun-fact] fetch failed:', err)
-    return Response.json({ fact: '' })
+    return Response.json({ fact: '', debug: `exception: ${err}` })
   }
 }
