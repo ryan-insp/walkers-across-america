@@ -145,10 +145,7 @@ export default async function HomePage() {
         </p>
         {lastSyncedAt && (
           <p style={{ fontSize: 11, color: '#3D4440', margin: '8px 0 0', letterSpacing: '0.02em' }}>
-            Last synced{' '}
-            {format(parseISO(lastSyncedAt), 'MMM d')}
-            {' at '}
-            {format(parseISO(lastSyncedAt), 'h:mm a')}
+            {`Last synced ${new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).format(parseISO(lastSyncedAt))} PT`}
           </p>
         )}
       </footer>
