@@ -1,11 +1,14 @@
-import { unstable_cache } from 'next/cache'
-
-async function generateFunFact(locationAndDate: string): Promise<string> {
-  // Strip the date suffix we append for cache-keying purposes
-  const location = locationAndDate.split('||')[0]
-
+/**
+ * Fetches a playful fun fact about the current location from Claude.
+ * Called server-side; the page's ISR revalidation (every 5 min) naturally
+ * limits how often this runs. Claude Haiku costs fractions of a cent per call.
+ */
+export async function getFunFact(locationName: string): Promise<string> {
   const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) return ''
+  if (!apiKey) {
+    console.error('[FunFact] ANTHROPIC_API_KEY is not set')
+    return ''
+  }
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -21,7 +24,7 @@ async function generateFunFact(locationAndDate: string): Promise<string> {
         messages: [
           {
             role: 'user',
-            content: `Give me one short, playful, surprising fun fact about ${location}. \
+            content: `Give me one short, playful, surprising fun fact about ${locationName}. \
 1-2 sentences max. Be specific and concrete — a real detail, not a generic observation. \
 Conversational tone, a little unexpected. Don't start with "Did you know".`,
           },
@@ -30,20 +33,17 @@ Conversational tone, a little unexpected. Don't start with "Did you know".`,
       cache: 'no-store',
     })
 
-    if (!res.ok) return ''
+    if (!res.ok) {
+      const body = await res.text()
+      console.error(`[FunFact] Anthropic API error ${res.status}: ${body}`)
+      return ''
+    }
+
     const data = await res.json()
-    return (data.content?.[0]?.text as string) ?? ''
-  } catch {
+    const text = (data.content?.[0]?.text as string) ?? ''
+    return text
+  } catch (err) {
+    console.error('[FunFact] Fetch failed:', err)
     return ''
   }
-}
-
-// Cache keyed by location + calendar date → refreshes daily and on location change
-const getCachedFunFact = unstable_cache(generateFunFact, ['fun-fact'], {
-  revalidate: 86400, // 24 hours
-})
-
-export async function getFunFact(locationName: string): Promise<string> {
-  const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD
-  return getCachedFunFact(`${locationName}||${today}`)
 }

@@ -6,6 +6,7 @@ import type { Challenge, DailyActivity, RoutePoint, Milestone } from '@/lib/type
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
 import MapSection from '@/components/MapSection'
+import CityPhoto from '@/components/CityPhoto'
 import StatsGrid from '@/components/StatsGrid'
 import MilestonesFeed from '@/components/MilestonesFeed'
 import { getMockData } from '@/lib/mock-data'
@@ -98,6 +99,47 @@ export default async function HomePage() {
     progress.latest_milestone_text = milestones[0].title
   }
 
+  // Fetch a city photo from Unsplash
+  const locationParts = progress.current_location_name.split(',').map(s => s.trim())
+  const cityName = locationParts[0]
+  const cityDisplayName = locationParts.slice(0, 2).filter(Boolean).join(', ')
+  let cityPhotoUrl: string | null = null
+  let cityPhotographerName: string | null = null
+  let cityPhotographerUrl: string | null = null
+
+  const unsplashKey = process.env.UNSPLASH_ACCESS_KEY
+  if (unsplashKey) {
+    // Build a list of queries to try, from most specific to least
+    const queries = [
+      cityName,
+      ...locationParts.slice(1), // state, country, etc.
+    ].filter(Boolean)
+
+    for (const query of queries) {
+      try {
+        const res = await fetch(
+          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
+          {
+            headers: { Authorization: `Client-ID ${unsplashKey}` },
+            next: { revalidate: 300 },
+          }
+        )
+        if (res.ok) {
+          const data = await res.json()
+          const photo = data.results?.[0]
+          if (photo) {
+            cityPhotoUrl = photo.urls.regular
+            cityPhotographerName = photo.user.name
+            cityPhotographerUrl = photo.user.links.html
+            break
+          }
+        }
+      } catch {
+        // Photo is decorative — fail silently
+      }
+    }
+  }
+
   return (
     <main style={{ minHeight: '100vh', background: '#0B0D0C' }}>
       <Nav />
@@ -107,6 +149,12 @@ export default async function HomePage() {
         currentLocation={progress.current_location_name.split(',')[0]}
       />
       <MapSection routePoints={routePoints} progress={progress} />
+      <CityPhoto
+        cityName={cityDisplayName}
+        photoUrl={cityPhotoUrl}
+        photographerName={cityPhotographerName}
+        photographerUrl={cityPhotographerUrl}
+      />
       <StatsGrid
         totalMiles={progress.total_miles}
         totalSteps={progress.total_steps}
