@@ -141,26 +141,25 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
           </Marker>
         )}
 
-        {/* Current position — green pulsing */}
+        {/* Current position — Ryan emoji */}
         {progress.current_position && (
           <Marker
             longitude={progress.current_position.lng}
             latitude={progress.current_position.lat}
-            anchor="center"
+            anchor="bottom"
           >
-            <div style={{
-              width: 28,
-              height: 28,
-              borderRadius: '50%',
-              background: 'rgba(46,255,139,0.08)',
-              border: '1.5px solid rgba(46,255,139,0.7)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              animation: 'pulseGreen 3s ease-in-out infinite',
-            }}>
-              <div style={{ width: 9, height: 9, borderRadius: '50%', background: '#2EFF8B', boxShadow: '0 0 6px rgba(46,255,139,0.8)' }} />
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/ryan-emoji.png"
+              alt="Current position"
+              style={{
+                height: 78,
+                width: 'auto',
+                mixBlendMode: 'multiply',
+                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
+                pointerEvents: 'none',
+              }}
+            />
           </Marker>
         )}
 
