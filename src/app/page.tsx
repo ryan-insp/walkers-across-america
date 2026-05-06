@@ -109,36 +109,59 @@ export default async function HomePage() {
 
   const unsplashKey = process.env.UNSPLASH_ACCESS_KEY
   if (unsplashKey) {
-    // Build a list of queries to try, from most specific to least
+    // Build queries from most to least specific, each phrased as a place search
     const queries = [
-      cityName,
-      ...locationParts.slice(1), // state, country, etc.
+      `${cityName} city`,
+      `${cityName} landscape`,
+      ...locationParts.slice(1).map(s => `${s} landscape`),
     ].filter(Boolean)
 
     for (const query of queries) {
       try {
         const res = await fetch(
-          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
+          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=10&orientation=landscape&content_filter=high`,
           {
             headers: { Authorization: `Client-ID ${unsplashKey}` },
             next: { revalidate: 300 },
           }
         )
-        if (res.ok) {
-          const data = await res.json()
-          const photo = data.results?.[0]
-          if (photo) {
-            cityPhotoUrl = photo.urls.regular
-            cityPhotographerName = photo.user.name
-            cityPhotographerUrl = photo.user.links.html
-            break
-          }
-        }
+        if (!res.ok) continue
+        const data = await res.json()
+        const results: Array<{
+          urls: { regular: string }
+          user: { name: string; links: { html: string } }
+          alt_description: string | null
+          description: string | null
+        }> = data.results ?? []
+        if (results.length === 0) continue
+
+        // Prefer a photo whose description mentions the city name
+        const cityLower = cityName.toLowerCase()
+        const relevant = results.find(p =>
+          (p.alt_description ?? '').toLowerCase().includes(cityLower) ||
+          (p.description ?? '').toLowerCase().includes(cityLower)
+        )
+        const photo = relevant ?? results[0]
+
+        cityPhotoUrl = photo.urls.regular
+        cityPhotographerName = photo.user.name
+        cityPhotographerUrl = photo.user.links.html
+        break
       } catch {
         // Photo is decorative — fail silently
       }
     }
   }
+
+  // Compute miles to next checkpoint
+  const maxRouteMile = routePoints.reduce((max, p) => Math.max(max, p.cumulative_mile_marker), 0)
+  const cappedMiles = Math.min(progress.total_miles, maxRouteMile)
+  const nextCheckpoint = [...routePoints]
+    .sort((a, b) => a.cumulative_mile_marker - b.cumulative_mile_marker)
+    .find(p => p.cumulative_mile_marker > cappedMiles)
+  const milesToNextCheckpoint = nextCheckpoint
+    ? nextCheckpoint.cumulative_mile_marker - cappedMiles
+    : null
 
   return (
     <main style={{ minHeight: '100vh', background: '#0B0D0C' }}>
@@ -177,6 +200,8 @@ export default async function HomePage() {
         targetDate={format(parse(challenge.end_date, 'yyyy-MM-dd', new Date()), 'MMMM d, yyyy')}
         currentPositionTitle={progress.current_location_name.split(',')[0]}
         currentPositionSubtitle={progress.current_location_name.split(',').slice(1).join(',').trim()}
+        nextCheckpointName={nextCheckpoint ? nextCheckpoint.name.split(',')[0] : null}
+        milesToNextCheckpoint={milesToNextCheckpoint}
       />
       <FunFact location={progress.current_location_name} />
       <MilestonesFeed milestones={milestones} />

@@ -12,6 +12,8 @@ type StatsGridProps = {
   targetDate?: string
   currentPositionTitle?: string
   currentPositionSubtitle?: string
+  nextCheckpointName?: string | null
+  milesToNextCheckpoint?: number | null
 }
 
 export default function StatsGrid({
@@ -25,7 +27,9 @@ export default function StatsGrid({
   etaShort = null,
   targetDate = 'December 31, 2026',
   currentPositionTitle = 'Playa Vista',
-  currentPositionSubtitle = 'Los Angeles, CA'
+  currentPositionSubtitle = 'Los Angeles, CA',
+  nextCheckpointName = null,
+  milesToNextCheckpoint = null,
 }: StatsGridProps) {
   const cardStyle: React.CSSProperties = {
     background: '#151917',
@@ -169,6 +173,11 @@ export default function StatsGrid({
             {currentPositionTitle}
           </div>
           <div style={subStyle}>{currentPositionSubtitle}</div>
+          {nextCheckpointName && milesToNextCheckpoint !== null && (
+            <div style={{ fontSize: 13, color: '#6B726F', marginTop: 8 }}>
+              {milesToNextCheckpoint.toFixed(0)} mi to {nextCheckpointName}
+            </div>
+          )}
         </div>
       </div>
     </section>
