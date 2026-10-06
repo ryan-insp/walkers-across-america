@@ -1,3 +1,5 @@
+import routeGeometry from './route-geometry.json'
+
 // ============================================================
 // Canonical route checkpoint data
 // Used for seeding and as the source of truth for the map.
@@ -141,33 +143,96 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
 /** Returns the total route distance (last checkpoint cumulative_mile_marker) */
 export const TOTAL_ROUTE_MILES = ROUTE_CHECKPOINTS[ROUTE_CHECKPOINTS.length - 1].cumulative_mile_marker
 
+type LngLat = [number, number]
+
+/** Road-following shape of each leg between consecutive checkpoints */
+const LEG_GEOMETRY = new Map<string, LngLat[]>(
+  (routeGeometry.legs as Array<{ from: number; to: number; coords: LngLat[] }>).map((l) => [
+    `${l.from}-${l.to}`,
+    l.coords,
+  ])
+)
+
+type RouteCheckpoint = { lat: number; lng: number; cumulative_mile_marker: number; order_index?: number }
+
+/** Coordinates for the leg a → b: the road shape if we have one, else a straight line */
+function legCoords(a: RouteCheckpoint, b: RouteCheckpoint): LngLat[] {
+  const shape = a.order_index !== undefined && b.order_index !== undefined
+    ? LEG_GEOMETRY.get(`${a.order_index}-${b.order_index}`)
+    : undefined
+  return shape ?? [[a.lng, a.lat], [b.lng, b.lat]]
+}
+
+/** Approximate distance between two points (equirectangular — fine for proportions along a leg) */
+function segLength(p: LngLat, q: LngLat): number {
+  const x = (q[0] - p[0]) * Math.cos(((p[1] + q[1]) / 2) * (Math.PI / 180))
+  const y = q[1] - p[1]
+  return Math.hypot(x, y)
+}
+
+/** Split a polyline at fraction t (0–1) of its length */
+function splitAt(coords: LngLat[], t: number): { before: LngLat[]; point: LngLat; after: LngLat[] } {
+  const lengths = coords.slice(1).map((c, i) => segLength(coords[i], c))
+  const total = lengths.reduce((sum, l) => sum + l, 0)
+  let target = t * total
+  for (let i = 0; i < lengths.length; i++) {
+    if (target <= lengths[i] || i === lengths.length - 1) {
+      const f = lengths[i] === 0 ? 0 : Math.min(1, target / lengths[i])
+      const a = coords[i]
+      const b = coords[i + 1]
+      const point: LngLat = [a[0] + f * (b[0] - a[0]), a[1] + f * (b[1] - a[1])]
+      return { before: [...coords.slice(0, i + 1), point], point, after: [point, ...coords.slice(i + 1)] }
+    }
+    target -= lengths[i]
+  }
+  return { before: coords, point: coords[coords.length - 1], after: [coords[coords.length - 1]] }
+}
+
 /**
- * Interpolate a geographic position along the route given a distance traveled.
- * Returns { lat, lng } clamped to the route bounds.
+ * Split the whole route at the given distance walked.
+ * Returns the walked and remaining paths (following roads) and the current position.
  */
-export function interpolatePosition(
+export function splitRoute(
   milesWalked: number,
-  checkpoints: Array<{ lat: number; lng: number; cumulative_mile_marker: number }>
-): { lat: number; lng: number } {
+  checkpoints: RouteCheckpoint[]
+): { walked: LngLat[]; remaining: LngLat[]; position: { lat: number; lng: number } } {
   const sorted = [...checkpoints].sort((a, b) => a.cumulative_mile_marker - b.cumulative_mile_marker)
   const clamped = Math.max(0, Math.min(milesWalked, sorted[sorted.length - 1].cumulative_mile_marker))
 
-  // Find the segment containing this mile
+  const walked: LngLat[] = []
+  const remaining: LngLat[] = []
+  let position = { lat: sorted[sorted.length - 1].lat, lng: sorted[sorted.length - 1].lng }
+
   for (let i = 0; i < sorted.length - 1; i++) {
     const a = sorted[i]
     const b = sorted[i + 1]
-    if (clamped >= a.cumulative_mile_marker && clamped <= b.cumulative_mile_marker) {
+    const coords = legCoords(a, b)
+    if (clamped >= b.cumulative_mile_marker) {
+      walked.push(...coords)
+    } else if (clamped <= a.cumulative_mile_marker) {
+      remaining.push(...coords)
+    } else {
       const segLen = b.cumulative_mile_marker - a.cumulative_mile_marker
-      const t = segLen === 0 ? 0 : (clamped - a.cumulative_mile_marker) / segLen
-      return {
-        lat: a.lat + t * (b.lat - a.lat),
-        lng: a.lng + t * (b.lng - a.lng),
-      }
+      const { before, point, after } = splitAt(coords, (clamped - a.cumulative_mile_marker) / segLen)
+      walked.push(...before)
+      remaining.push(...after)
+      position = { lng: point[0], lat: point[1] }
     }
   }
 
-  // Past the end — return final point
-  return { lat: sorted[sorted.length - 1].lat, lng: sorted[sorted.length - 1].lng }
+  if (clamped <= sorted[0].cumulative_mile_marker) position = { lat: sorted[0].lat, lng: sorted[0].lng }
+  return { walked, remaining, position }
+}
+
+/**
+ * Interpolate a geographic position along the route given a distance traveled.
+ * Follows the road shape of each leg; returns { lat, lng } clamped to the route bounds.
+ */
+export function interpolatePosition(
+  milesWalked: number,
+  checkpoints: RouteCheckpoint[]
+): { lat: number; lng: number } {
+  return splitRoute(milesWalked, checkpoints).position
 }
 
 /**

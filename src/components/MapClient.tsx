@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Map, { Source, Layer, Marker, Popup, NavigationControl } from 'react-map-gl'
 import type { RoutePoint, ProgressData } from '@/lib/types'
+import { splitRoute } from '@/lib/route-data'
 
 interface MapClientProps {
   routePoints: RoutePoint[]
@@ -18,25 +19,13 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
     ? { longitude: progress.current_position.lng, latitude: progress.current_position.lat, zoom: 5 }
     : { longitude: -98.5795, latitude: 39.8283, zoom: 3.5 }
 
-  // Split route into walked and remaining segments
+  // Split route into walked and remaining paths (following roads)
   const maxMile = sorted[sorted.length - 1]?.cumulative_mile_marker ?? 0
   const cappedMiles = Math.min(progress.total_miles, maxMile)
 
-  const walkedCoords: [number, number][] = []
-  const remainingCoords: [number, number][] = []
-
-  for (const p of sorted) {
-    if (p.cumulative_mile_marker <= cappedMiles) {
-      walkedCoords.push([p.lng, p.lat])
-    } else {
-      remainingCoords.push([p.lng, p.lat])
-    }
-  }
-
-  if (progress.current_position) {
-    walkedCoords.push([progress.current_position.lng, progress.current_position.lat])
-    remainingCoords.unshift([progress.current_position.lng, progress.current_position.lat])
-  }
+  const { walked: walkedCoords, remaining: remainingCoords } = sorted.length > 1
+    ? splitRoute(cappedMiles, sorted)
+    : { walked: [], remaining: [] }
 
   const walkedGeoJSON = {
     type: 'Feature' as const,
