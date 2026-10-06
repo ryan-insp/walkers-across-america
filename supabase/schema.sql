@@ -22,7 +22,7 @@ create table if not exists challenges (
   start_lng     double precision not null default 0,
   end_lat       double precision not null default 0,
   end_lng       double precision not null default 0,
-  target_miles  double precision not null default 2900,
+  target_miles  double precision not null default 3000,
   target_steps  bigint not null default 5800000,
   is_public     boolean not null default true,
   created_at    timestamptz not null default now(),

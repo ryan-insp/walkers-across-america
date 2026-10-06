@@ -1,8 +1,9 @@
 // ============================================================
 // Canonical route checkpoint data
 // Used for seeding and as the source of truth for the map.
-// Cumulative miles are symbolic storytelling distances —
-// not exact GPS distances.
+// Cumulative miles are real driving distances between
+// cities (~3,194 mi total), scaled so Manhattan lands at
+// the 3,000-mile goal.
 // ============================================================
 
 export interface CheckpointSeed {
@@ -28,7 +29,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Pasadena, CA',
     lat: 34.1478,
     lng: -118.1445,
-    cumulative_mile_marker: 15,
+    cumulative_mile_marker: 23,
     point_type: 'checkpoint',
   },
   {
@@ -36,7 +37,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Palm Springs, CA',
     lat: 33.8303,
     lng: -116.5453,
-    cumulative_mile_marker: 110,
+    cumulative_mile_marker: 122,
     point_type: 'checkpoint',
   },
   {
@@ -44,7 +45,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Phoenix, AZ',
     lat: 33.4484,
     lng: -112.074,
-    cumulative_mile_marker: 300,
+    cumulative_mile_marker: 371,
     point_type: 'checkpoint',
   },
   {
@@ -52,7 +53,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Albuquerque, NM',
     lat: 35.0844,
     lng: -106.6504,
-    cumulative_mile_marker: 500,
+    cumulative_mile_marker: 765,
     point_type: 'checkpoint',
   },
   {
@@ -60,7 +61,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Santa Fe, NM',
     lat: 35.687,
     lng: -105.9378,
-    cumulative_mile_marker: 580,
+    cumulative_mile_marker: 826,
     point_type: 'checkpoint',
   },
   {
@@ -68,7 +69,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Amarillo, TX',
     lat: 35.2220,
     lng: -101.8313,
-    cumulative_mile_marker: 750,
+    cumulative_mile_marker: 1089,
     point_type: 'checkpoint',
   },
   {
@@ -76,7 +77,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Oklahoma City, OK',
     lat: 35.4676,
     lng: -97.5164,
-    cumulative_mile_marker: 950,
+    cumulative_mile_marker: 1333,
     point_type: 'checkpoint',
   },
   {
@@ -84,7 +85,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Kansas City, MO',
     lat: 39.0997,
     lng: -94.5786,
-    cumulative_mile_marker: 1150,
+    cumulative_mile_marker: 1662,
     point_type: 'checkpoint',
   },
   {
@@ -92,7 +93,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'St. Louis, MO',
     lat: 38.627,
     lng: -90.1994,
-    cumulative_mile_marker: 1300,
+    cumulative_mile_marker: 1896,
     point_type: 'checkpoint',
   },
   {
@@ -100,7 +101,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Chicago, IL',
     lat: 41.8781,
     lng: -87.6298,
-    cumulative_mile_marker: 1500,
+    cumulative_mile_marker: 2175,
     point_type: 'checkpoint',
   },
   {
@@ -108,7 +109,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Cleveland, OH',
     lat: 41.4993,
     lng: -81.6944,
-    cumulative_mile_marker: 1700,
+    cumulative_mile_marker: 2499,
     point_type: 'checkpoint',
   },
   {
@@ -116,7 +117,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Pittsburgh, PA',
     lat: 40.4406,
     lng: -79.9959,
-    cumulative_mile_marker: 1900,
+    cumulative_mile_marker: 2624,
     point_type: 'checkpoint',
   },
   {
@@ -124,7 +125,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Philadelphia, PA',
     lat: 39.9526,
     lng: -75.1652,
-    cumulative_mile_marker: 2100,
+    cumulative_mile_marker: 2911,
     point_type: 'checkpoint',
   },
   {
@@ -132,7 +133,7 @@ export const ROUTE_CHECKPOINTS: CheckpointSeed[] = [
     name: 'Manhattan, New York, NY',
     lat: 40.7831,
     lng: -73.9712,
-    cumulative_mile_marker: 2900,
+    cumulative_mile_marker: 3000,
     point_type: 'finish',
   },
 ]

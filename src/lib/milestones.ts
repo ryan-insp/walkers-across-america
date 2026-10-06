@@ -85,7 +85,7 @@ export function generateMilestones(
       milestones.push({
         milestone_type: 'percent_10',
         title: 'Manhattan. You made it.',
-        body: 'Playa Vista to Manhattan. 2,900 miles on foot. Done.',
+        body: 'Playa Vista to Manhattan. 3,000 miles on foot. Done.',
         milestone_date: dateStr,
         trigger_value: 100,
         is_auto_generated: true,
@@ -140,11 +140,11 @@ function hundredMileBody(miles: number): string {
     300: 'Three hundred down. The desert is behind you.',
     500: 'Five hundred miles walked.',
     1000: 'A thousand miles. Halfway isn\'t far now.',
-    1450: 'Kansas City range. Middle of the country.',
-    1800: 'Chicago territory.',
+    1700: 'Kansas City range. Middle of the country.',
     2000: 'Two thousand miles logged.',
+    2200: 'Chicago territory.',
     2500: 'Final stretch. The coast is close.',
-    2900: 'Full route completed.',
+    3000: 'Full route completed.',
   }
   return messages[miles] ?? `${miles} miles walked since January 1.`
 }

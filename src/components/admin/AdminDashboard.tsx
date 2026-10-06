@@ -24,8 +24,8 @@ export default function AdminDashboard({ user, challenge, settings, recentSyncs,
   const [saveMsg, setSaveMsg] = useState('')
 
   const [title, setTitle] = useState(challenge?.title ?? '')
-  const [targetMiles, setTargetMiles] = useState(String(challenge?.target_miles ?? 2900))
-  const [targetSteps, setTargetSteps] = useState(String(challenge?.target_steps ?? 5800000))
+  const [targetMiles, setTargetMiles] = useState(String(challenge?.target_miles ?? 3000))
+  const [targetSteps, setTargetSteps] = useState(String(challenge?.target_steps ?? 6000000))
   const [isPublic, setIsPublic] = useState(challenge?.is_public ?? true)
 
   async function handleSignOut() {

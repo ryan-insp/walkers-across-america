@@ -19,7 +19,7 @@ insert into challenges (
   'Manhattan, New York, NY',
   33.9752, -118.4250,
   40.7831, -73.9712,
-  2900, 5800000, true
+  3000, 6000000, true
 ) on conflict (slug) do nothing;
 
 -- ── Route points ──────────────────────────────────────────
@@ -33,22 +33,20 @@ begin
   insert into route_points (challenge_id, order_index, name, lat, lng, cumulative_mile_marker, point_type)
   values
     (cid, 0,  'Playa Vista, Los Angeles, CA', 33.9752, -118.4250,    0, 'start'),
-    (cid, 1,  'Pasadena, CA',                 34.1478, -118.1445,   15, 'checkpoint'),
-    (cid, 2,  'Palm Springs, CA',             33.8303, -116.5453,  110, 'checkpoint'),
-    (cid, 3,  'Phoenix, AZ',                  33.4484, -112.0740,  300, 'checkpoint'),
-    (cid, 4,  'Tucson, AZ',                   32.2226, -110.9747,  420, 'checkpoint'),
-    (cid, 5,  'El Paso, TX',                  31.7619, -106.4850,  650, 'checkpoint'),
-    (cid, 6,  'San Antonio, TX',              29.4241,  -98.4936,  900, 'checkpoint'),
-    (cid, 7,  'Austin, TX',                   30.2672,  -97.7431, 1000, 'checkpoint'),
-    (cid, 8,  'Dallas, TX',                   32.7767,  -96.7970, 1100, 'checkpoint'),
-    (cid, 9,  'Oklahoma City, OK',            35.4676,  -97.5164, 1250, 'checkpoint'),
-    (cid, 10, 'Kansas City, MO',              39.0997,  -94.5786, 1450, 'checkpoint'),
-    (cid, 11, 'St. Louis, MO',                38.6270,  -90.1994, 1600, 'checkpoint'),
-    (cid, 12, 'Chicago, IL',                  41.8781,  -87.6298, 1800, 'checkpoint'),
-    (cid, 13, 'Cleveland, OH',                41.4993,  -81.6944, 2000, 'checkpoint'),
-    (cid, 14, 'Pittsburgh, PA',               40.4406,  -79.9959, 2200, 'checkpoint'),
-    (cid, 15, 'Philadelphia, PA',             39.9526,  -75.1652, 2400, 'checkpoint'),
-    (cid, 16, 'Manhattan, New York, NY',      40.7831,  -73.9712, 2900, 'finish')
+    (cid, 1,  'Pasadena, CA',                 34.1478, -118.1445,   23, 'checkpoint'),
+    (cid, 2,  'Palm Springs, CA',             33.8303, -116.5453,  122, 'checkpoint'),
+    (cid, 3,  'Phoenix, AZ',                  33.4484, -112.0740,  371, 'checkpoint'),
+    (cid, 4,  'Albuquerque, NM',              35.0844, -106.6504,  765, 'checkpoint'),
+    (cid, 5,  'Santa Fe, NM',                 35.6870, -105.9378,  826, 'checkpoint'),
+    (cid, 6,  'Amarillo, TX',                 35.2220, -101.8313, 1089, 'checkpoint'),
+    (cid, 7,  'Oklahoma City, OK',            35.4676,  -97.5164, 1333, 'checkpoint'),
+    (cid, 8,  'Kansas City, MO',              39.0997,  -94.5786, 1662, 'checkpoint'),
+    (cid, 9,  'St. Louis, MO',                38.6270,  -90.1994, 1896, 'checkpoint'),
+    (cid, 10, 'Chicago, IL',                  41.8781,  -87.6298, 2175, 'checkpoint'),
+    (cid, 11, 'Cleveland, OH',                41.4993,  -81.6944, 2499, 'checkpoint'),
+    (cid, 12, 'Pittsburgh, PA',               40.4406,  -79.9959, 2624, 'checkpoint'),
+    (cid, 13, 'Philadelphia, PA',             39.9526,  -75.1652, 2911, 'checkpoint'),
+    (cid, 14, 'Manhattan, New York, NY',      40.7831,  -73.9712, 3000, 'finish')
   on conflict (challenge_id, order_index) do nothing;
 
   -- App settings

@@ -10,10 +10,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Ryan's Walk Across America 2026",
-  description: 'Tracking every mile from Playa Vista, Los Angeles to Manhattan, New York — 2,900 miles on foot.',
+  description: 'Tracking every mile from Playa Vista, Los Angeles to Manhattan, New York — 3,000 miles on foot.',
   openGraph: {
     title: "Ryan's Walk Across America 2026",
-    description: 'Tracking every mile from Playa Vista, LA to Manhattan, NY — 2,900 miles on foot.',
+    description: 'Tracking every mile from Playa Vista, LA to Manhattan, NY — 3,000 miles on foot.',
     type: 'website',
   },
   icons: {
