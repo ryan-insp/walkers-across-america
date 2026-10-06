@@ -113,6 +113,14 @@ export async function POST(req: NextRequest) {
           generated.map((m) => ({ ...m, challenge_id: challenge.id })),
           { onConflict: 'challenge_id,milestone_type,trigger_value' }
         )
+
+        // Fastest week used to be keyed by its mileage, leaving one row per old record
+        await supabase
+          .from('milestones')
+          .delete()
+          .eq('challenge_id', challenge.id)
+          .eq('milestone_type', 'fastest_week')
+          .neq('trigger_value', 0)
       }
     }
 

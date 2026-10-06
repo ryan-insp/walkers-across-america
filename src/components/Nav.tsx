@@ -33,6 +33,7 @@ export default function Nav() {
         />
 
         <nav
+          className="site-nav"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -44,7 +45,8 @@ export default function Nav() {
         >
           <a href="#map" style={{ textDecoration: 'none', color: 'inherit' }}>Map</a>
           <a href="#stats" style={{ textDecoration: 'none', color: 'inherit' }}>Stats</a>
-          <a href="/admin" style={{ textDecoration: 'none', color: 'inherit' }}>Admin →</a>
+          <a href="#postcards" style={{ textDecoration: 'none', color: 'inherit' }}>Postcards</a>
+          <a href="/admin" className="site-nav-admin" style={{ textDecoration: 'none', color: 'inherit' }}>Admin →</a>
         </nav>
       </div>
     </header>

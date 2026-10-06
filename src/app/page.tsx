@@ -11,6 +11,10 @@ import StatsGrid from '@/components/StatsGrid'
 import MilestonesFeed from '@/components/MilestonesFeed'
 import { getMockData } from '@/lib/mock-data'
 import FunFact from '@/components/FunFact'
+import ActivityCalendar from '@/components/ActivityCalendar'
+import Postcards, { type PostcardData } from '@/components/Postcards'
+import { activityStats, checkpointArrivals } from '@/lib/journey'
+import postcardsData from '@/lib/postcards-data.json'
 
 // Revalidate every 5 minutes
 export const revalidate = 300
@@ -41,7 +45,7 @@ export default async function HomePage() {
         .select('*')
         .eq('is_visible', true)
         .order('milestone_date', { ascending: false })
-        .limit(10),
+        .limit(20),
     ])
 
     if (challengeRes.data) {
@@ -58,7 +62,16 @@ export default async function HomePage() {
     }
 
     routePoints = routeRes.data ?? []
-    milestones = milestonesRes.data ?? []
+    // Only the current fastest week counts — older records were superseded
+    let seenFastestWeek = false
+    milestones = (milestonesRes.data ?? [])
+      .filter((m) => {
+        if (m.milestone_type !== 'fastest_week') return true
+        if (seenFastestWeek) return false
+        seenFastestWeek = true
+        return true
+      })
+      .slice(0, 10)
   } catch {
     // DB not connected yet — fall through to mock data
   }
@@ -163,6 +176,27 @@ export default async function HomePage() {
     ? nextCheckpoint.cumulative_mile_marker - cappedMiles
     : null
 
+  // Daily activity calendar + streaks
+  const todayPT = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles' }).format(new Date())
+  const stats = activityStats(activities, progress.target_pace_miles_per_day)
+
+  // Postcards for every city reached so far (backdated from daily history)
+  const cardInfo = postcardsData as Record<string, Omit<PostcardData, 'orderIndex' | 'city' | 'state' | 'mile' | 'date'>>
+  const postcards: PostcardData[] = checkpointArrivals(activities, routePoints)
+    .filter((a) => cardInfo[a.order_index])
+    .map((a) => {
+      const parts = a.name.split(',').map((x) => x.trim())
+      return {
+        ...cardInfo[a.order_index],
+        orderIndex: a.order_index,
+        city: parts[0],
+        state: parts[parts.length - 1],
+        mile: a.mile,
+        date: a.date,
+      }
+    })
+    .reverse()
+
   return (
     <main style={{ minHeight: '100vh', background: '#0B0D0C' }}>
       <Nav />
@@ -203,7 +237,20 @@ export default async function HomePage() {
         nextCheckpointName={nextCheckpoint ? nextCheckpoint.name.split(',')[0] : null}
         milesToNextCheckpoint={milesToNextCheckpoint}
       />
+      <ActivityCalendar
+        stats={stats}
+        year={challenge.year}
+        today={todayPT}
+        dailyGoalMiles={progress.target_pace_miles_per_day}
+      />
       <FunFact location={progress.current_location_name} />
+      <Postcards
+        postcards={postcards}
+        totalCities={routePoints.filter((p) => p.point_type !== 'start').length}
+        nextStop={nextCheckpoint && milesToNextCheckpoint !== null
+          ? { city: nextCheckpoint.name.split(',')[0], milesToGo: milesToNextCheckpoint }
+          : null}
+      />
       <MilestonesFeed milestones={milestones} />
       <footer
         style={{

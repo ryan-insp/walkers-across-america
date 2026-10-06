@@ -27,6 +27,11 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
     ? splitRoute(cappedMiles, sorted)
     : { walked: [], remaining: [] }
 
+  // Where Ryan would be if exactly on goal pace
+  const goalMiles = Math.min(progress.target_pace_miles_per_day * progress.days_elapsed, maxMile)
+  const ghost = sorted.length > 1 ? splitRoute(goalMiles, sorted).position : null
+  const ghostDelta = progress.total_miles - goalMiles
+
   const walkedGeoJSON = {
     type: 'Feature' as const,
     properties: {},
@@ -171,6 +176,41 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
           </Marker>
         )}
 
+        {/* Goal-pace ghost */}
+        {ghost && (
+          <Marker longitude={ghost.lng} latitude={ghost.lat} anchor="center">
+            <div
+              title={`Goal pace: mile ${Math.round(goalMiles).toLocaleString()} today (${Math.abs(ghostDelta).toFixed(0)} mi ${ghostDelta >= 0 ? 'behind Ryan' : 'ahead of Ryan'})`}
+              style={{ position: 'relative', width: 16, height: 16 }}
+            >
+              <div style={{
+                width: 16,
+                height: 16,
+                borderRadius: '50%',
+                background: 'rgba(245,247,246,0.18)',
+                border: '1.5px dashed rgba(245,247,246,0.75)',
+              }} />
+              <div style={{
+                position: 'absolute',
+                top: 20,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                whiteSpace: 'nowrap',
+                fontSize: 11,
+                fontWeight: 600,
+                color: 'rgba(245,247,246,0.8)',
+                background: 'rgba(17,20,19,0.85)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 8,
+                padding: '2px 7px',
+                fontFamily: 'system-ui',
+              }}>
+                Goal pace
+              </div>
+            </div>
+          </Marker>
+        )}
+
         {/* Current position — Ryan emoji */}
         {progress.current_position && (
           <Marker
@@ -234,6 +274,7 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
         <LegendItem color="#2EFF8B" label="Start — Playa Vista, CA" outline />
         <LegendItem color="#2EFF8B" label="Route walked" line />
         <LegendItem color="rgba(255,255,255,0.3)" label="Route remaining" line dashed />
+        <LegendItem color="rgba(245,247,246,0.75)" label="Where goal pace would be" outline dashed />
         <LegendItem color="rgba(255,255,255,0.3)" label="Finish — Manhattan, NY" outline />
       </div>
     </div>
@@ -284,7 +325,7 @@ function LegendItem({
           height: 8,
           borderRadius: '50%',
           background: 'transparent',
-          border: outline ? `1.5px solid ${color}` : undefined,
+          border: outline ? `1.5px ${dashed ? 'dashed' : 'solid'} ${color}` : undefined,
           flexShrink: 0,
         }}
       />

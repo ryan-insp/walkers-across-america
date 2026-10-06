@@ -201,7 +201,7 @@ function detectFastestWeek(
     title: 'Fastest week of the year.',
     body: `${weekStart}–${weekEnd}: ${maxWeek[1].toFixed(1)} miles walked in a single week.`,
     milestone_date: maxWeek[0],
-    trigger_value: Math.round(maxWeek[1] * 10) / 10,
+    trigger_value: 0, // single record — each new fastest week replaces the last
     is_auto_generated: true,
     is_visible: true,
   }

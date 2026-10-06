@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { getMockData } from '@/lib/mock-data'
 
-export const revalidate = 300
+// Computed per request (date-dependent); the CDN caches for 5 minutes
+export const dynamic = 'force-dynamic'
+const CACHE = { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' }
 
 export async function GET() {
   try {
@@ -28,7 +30,7 @@ export async function GET() {
       .order('milestone_date', { ascending: false })
       .limit(20)
 
-    return NextResponse.json({ milestones: data ?? [] })
+    return NextResponse.json({ milestones: data ?? [] }, { headers: CACHE })
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
