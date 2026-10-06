@@ -14,7 +14,7 @@ const block = Alfa_Slab_One({ weight: '400', subsets: ['latin'], variable: '--fo
 const hand = Caveat({ subsets: ['latin'], variable: '--font-hand', display: 'swap' })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ryanswalk.com'),
+  metadataBase: new URL('https://www.ryanswalk.com'),
   title: "Ryan's Walk Across America 2026",
   description: 'Tracking every mile from Playa Vista, Los Angeles to Manhattan, New York — 3,000 miles on foot.',
   openGraph: {
