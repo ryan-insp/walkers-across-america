@@ -122,42 +122,55 @@ export default function ActivityCalendar({ stats, year, today, dailyGoalMiles }:
         </div>
 
         <div ref={scrollRef} style={{ overflowX: 'auto', paddingBottom: 4 }}>
-          <div style={{ display: 'inline-flex', flexDirection: 'column', gap: 6 }}>
-            <div style={{ display: 'flex', gap: GAP, marginLeft: 28 }}>
-              {monthLabels.map((m, i) => (
-                <div key={i} style={{ width: CELL, fontSize: 10, color: '#6B726F', whiteSpace: 'nowrap', overflow: 'visible' }}>
+          {/* Full-width grid: label column + one column per week; cells stay square */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: `28px repeat(${weeks.length}, minmax(${CELL}px, 1fr))`,
+              gridTemplateRows: 'auto',
+              gap: GAP,
+              minWidth: 28 + weeks.length * (CELL + GAP),
+            }}
+          >
+            {monthLabels.map((m, i) =>
+              m ? (
+                <div
+                  key={`m${i}`}
+                  style={{ gridColumn: i + 2, gridRow: 1, fontSize: 10, color: '#6B726F', whiteSpace: 'nowrap', paddingBottom: 3 }}
+                >
                   {m}
                 </div>
-              ))}
-            </div>
-            <div style={{ display: 'flex', gap: GAP }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: GAP, width: 25, flexShrink: 0 }}>
-                {['Mon', '', 'Wed', '', 'Fri', '', ''].map((d, i) => (
-                  <div key={i} style={{ height: CELL, fontSize: 10, color: '#6B726F', lineHeight: `${CELL}px` }}>{d}</div>
-                ))}
+              ) : null
+            )}
+            {['Mon', '', 'Wed', '', 'Fri', '', ''].map((d, i) => (
+              <div
+                key={`d${i}`}
+                style={{ gridColumn: 1, gridRow: i + 2, fontSize: 10, color: '#6B726F', display: 'flex', alignItems: 'center' }}
+              >
+                {d}
               </div>
-              {weeks.map((week, wi) => (
-                <div key={wi} style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
-                  {week.map((c) => {
-                    const miles = milesByDate.get(c.date)
-                    const future = c.date > today
-                    return (
-                      <div
-                        key={c.date}
-                        title={c.inYear ? `${format(parseISO(c.date), 'EEE, MMM d')}: ${future ? 'upcoming' : `${(miles ?? 0).toFixed(1)} mi`}` : undefined}
-                        style={{
-                          width: CELL,
-                          height: CELL,
-                          borderRadius: 3,
-                          background: c.inYear ? cellColor(miles, dailyGoalMiles, future) : 'transparent',
-                          outline: c.date === today ? '1px solid rgba(245,247,246,0.6)' : undefined,
-                        }}
-                      />
-                    )
-                  })}
-                </div>
-              ))}
-            </div>
+            ))}
+            {weeks.map((week, wi) =>
+              week.map((c, di) => {
+                const miles = milesByDate.get(c.date)
+                const future = c.date > today
+                return (
+                  <div
+                    key={c.date}
+                    title={c.inYear ? `${format(parseISO(c.date), 'EEE, MMM d')}: ${future ? 'upcoming' : `${(miles ?? 0).toFixed(1)} mi`}` : undefined}
+                    style={{
+                      gridColumn: wi + 2,
+                      gridRow: di + 2,
+                      aspectRatio: '1',
+                      borderRadius: 3,
+                      // Days outside the year keep the grid a clean rectangle
+                      background: c.inYear ? cellColor(miles, dailyGoalMiles, future) : 'rgba(255,255,255,0.02)',
+                      outline: c.date === today ? '1px solid rgba(245,247,246,0.6)' : undefined,
+                    }}
+                  />
+                )
+              })
+            )}
           </div>
         </div>
 
