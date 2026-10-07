@@ -42,7 +42,8 @@ export function computeProgress(
 
   // Days elapsed since Jan 1 of the challenge year
   const start = parseISO(challenge.start_date)
-  const today = new Date()
+  // Count days in Pacific time — the server runs on UTC, which rolls over at 5pm PT
+  const today = parseISO(new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles' }).format(new Date()))
   const days_elapsed = Math.max(1, differenceInDays(today, start))
 
   const target_pace_miles_per_day = challenge.target_miles / 365
