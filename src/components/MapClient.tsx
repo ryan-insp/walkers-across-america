@@ -187,8 +187,8 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
                 width: 16,
                 height: 16,
                 borderRadius: '50%',
-                background: 'rgba(245,247,246,0.18)',
-                border: '1.5px dashed rgba(245,247,246,0.75)',
+                background: 'rgba(244,241,234,0.18)',
+                border: '1.5px dashed rgba(244,241,234,0.75)',
               }} />
               <div style={{
                 position: 'absolute',
@@ -198,8 +198,8 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
                 whiteSpace: 'nowrap',
                 fontSize: 11,
                 fontWeight: 600,
-                color: 'rgba(245,247,246,0.8)',
-                background: 'rgba(17,20,19,0.85)',
+                color: 'rgba(244,241,234,0.8)',
+                background: 'rgba(20,20,22,0.85)',
                 border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: 8,
                 padding: '2px 7px',
@@ -243,10 +243,10 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
             closeButton
           >
             <div style={{ fontFamily: 'system-ui', padding: '2px 0' }}>
-              <div style={{ fontWeight: 600, fontSize: 13, color: '#F5F7F6' }}>
+              <div style={{ fontWeight: 600, fontSize: 13, color: '#F4F1EA' }}>
                 {popupInfo.name.split(',')[0]}
               </div>
-              <div style={{ fontSize: 12, color: '#6B726F', marginTop: 3 }}>
+              <div style={{ fontSize: 12, color: '#8A867E', marginTop: 3 }}>
                 Mile {popupInfo.cumulative_mile_marker.toLocaleString()}
               </div>
             </div>
@@ -260,7 +260,7 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
           position: 'absolute',
           bottom: 16,
           right: 16,
-          background: 'rgba(17,20,19,0.9)',
+          background: 'rgba(20,20,22,0.9)',
           backdropFilter: 'blur(8px)',
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 12,
@@ -274,7 +274,7 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
         <LegendItem color="#2EFF8B" label="Start — Playa Vista, CA" outline />
         <LegendItem color="#2EFF8B" label="Route walked" line />
         <LegendItem color="rgba(255,255,255,0.3)" label="Route remaining" line dashed />
-        <LegendItem color="rgba(245,247,246,0.75)" label="Where goal pace would be" outline dashed />
+        <LegendItem color="rgba(244,241,234,0.75)" label="Where goal pace would be" outline dashed />
         <LegendItem color="rgba(255,255,255,0.3)" label="Finish — Manhattan, NY" outline />
       </div>
     </div>
@@ -313,7 +313,7 @@ function LegendItem({
             />
           )}
         </svg>
-        <span style={{ fontSize: 12, color: '#A0A7A4', fontFamily: 'system-ui' }}>{label}</span>
+        <span style={{ fontSize: 12, color: '#B4AFA5', fontFamily: 'system-ui' }}>{label}</span>
       </div>
     )
   }
@@ -329,7 +329,7 @@ function LegendItem({
           flexShrink: 0,
         }}
       />
-      <span style={{ fontSize: 12, color: '#A0A7A4', fontFamily: 'system-ui' }}>{label}</span>
+      <span style={{ fontSize: 12, color: '#B4AFA5', fontFamily: 'system-ui' }}>{label}</span>
     </div>
   )
 }

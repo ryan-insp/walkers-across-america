@@ -17,19 +17,8 @@ export default function MilestonesFeed({ milestones }: MilestonesFeedProps) {
   if (milestones.length === 0) return null
 
   return (
-    <section className="site-container" style={{ paddingBottom: 88 }}>
-      <p
-        style={{
-          fontSize: 13,
-          fontWeight: 600,
-          letterSpacing: '0.14em',
-          textTransform: 'uppercase',
-          color: '#6B726F',
-          marginBottom: 20,
-        }}
-      >
-        Milestones
-      </p>
+    <section style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 88px' }}>
+      <div className="section-label">Milestones</div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {milestones.map((m) => (
@@ -40,7 +29,7 @@ export default function MilestonesFeed({ milestones }: MilestonesFeedProps) {
               display: 'flex',
               alignItems: 'center',
               gap: 16,
-              background: '#151917',
+              background: '#151517',
               border: '1px solid rgba(255,255,255,0.06)',
               borderRadius: 16,
               padding: '16px 20px',
@@ -56,9 +45,10 @@ export default function MilestonesFeed({ milestones }: MilestonesFeedProps) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: '50%',
-                background: 'rgba(46,255,139,0.06)',
-                border: '1px solid rgba(46,255,139,0.15)',
-                color: '#2EFF8B',
+                // City crossings use the brand orange; distance milestones stay green
+                background: m.milestone_type === 'checkpoint' ? 'rgba(238,68,23,0.10)' : 'rgba(46,255,139,0.06)',
+                border: `1px solid ${m.milestone_type === 'checkpoint' ? 'rgba(238,68,23,0.35)' : 'rgba(46,255,139,0.15)'}`,
+                color: m.milestone_type === 'checkpoint' ? '#EE4417' : '#2EFF8B',
                 fontSize: 13,
               }}
             >
@@ -67,18 +57,18 @@ export default function MilestonesFeed({ milestones }: MilestonesFeedProps) {
 
             {/* Content */}
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 15, fontWeight: 600, color: '#F5F7F6', margin: 0, lineHeight: 1.3 }}>
+              <p style={{ fontSize: 15, fontWeight: 600, color: '#F4F1EA', margin: 0, lineHeight: 1.3 }}>
                 {m.title}
               </p>
               {m.body && m.body !== m.title && (
-                <p style={{ fontSize: 14, color: '#A0A7A4', margin: '3px 0 0', lineHeight: 1.4 }}>
+                <p style={{ fontSize: 14, color: '#B4AFA5', margin: '3px 0 0', lineHeight: 1.4 }}>
                   {m.body}
                 </p>
               )}
             </div>
 
             {/* Date */}
-            <p style={{ fontSize: 13, color: '#6B726F', flexShrink: 0, margin: 0 }}>
+            <p style={{ fontSize: 13, color: '#8A867E', flexShrink: 0, margin: 0 }}>
               {format(parseISO(m.milestone_date), 'MMM d')}
             </p>
           </div>

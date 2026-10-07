@@ -30,10 +30,10 @@ export default function Postcards({ postcards, totalCities, nextStop }: Postcard
   return (
     <section id="postcards" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 80px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', marginBottom: 20 }}>
-        <div style={{ fontSize: 12, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#6B726F', fontWeight: 500 }}>
+        <div className="section-label">
           Postcards From the Road
         </div>
-        <div style={{ fontSize: 13, color: '#6B726F' }}>
+        <div style={{ fontSize: 13, color: '#8A867E' }}>
           {postcards.length} of {totalCities} collected · tap a card to flip it
         </div>
       </div>

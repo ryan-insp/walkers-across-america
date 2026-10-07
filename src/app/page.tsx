@@ -1,5 +1,5 @@
 import { createServiceClient } from '@/lib/supabase/server'
-import { computeProgress, formatPace } from '@/lib/progress'
+import { computeProgress, formatPace, formatAheadBehind } from '@/lib/progress'
 import { reverseGeocode } from '@/lib/route-data'
 import { format, parse, parseISO } from 'date-fns'
 import type { Challenge, DailyActivity, RoutePoint, Milestone } from '@/lib/types'
@@ -198,12 +198,18 @@ export default async function HomePage() {
     .reverse()
 
   return (
-    <main style={{ minHeight: '100vh', background: '#0B0D0C' }}>
+    <main style={{ minHeight: '100vh', background: '#0B0B0C' }}>
       <Nav />
       <Hero
         milesWalked={progress.total_miles}
+        targetMiles={challenge.target_miles}
         percentComplete={progress.percent_complete}
-        currentLocation={progress.current_location_name.split(',')[0]}
+        currentLocation={progress.current_location_name.split(',').slice(0, 2).join(',')}
+        nextStop={nextCheckpoint && milesToNextCheckpoint !== null
+          ? { city: nextCheckpoint.name.split(',')[0], milesToGo: milesToNextCheckpoint }
+          : null}
+        aheadBehindText={formatAheadBehind(progress.ahead_behind_miles)}
+        isAhead={progress.ahead_behind_miles >= 0}
       />
       <MapSection routePoints={routePoints} progress={progress} />
       <CityPhoto
@@ -260,11 +266,13 @@ export default async function HomePage() {
           textAlign: 'center',
         }}
       >
-        <p style={{ fontSize: 13, color: '#6B726F', margin: 0, letterSpacing: '0.01em' }}>
-          Ryan&apos;s Walk Across America 2026 &nbsp;·&nbsp; Playa Vista, CA → Manhattan, NY
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/brand/mark.png" alt="" aria-hidden style={{ height: 28, width: 'auto', margin: '0 auto 16px', display: 'block', opacity: 0.9 }} />
+        <p style={{ fontSize: 13, color: '#8A867E', margin: 0, letterSpacing: '0.01em' }}>
+          Ryan&apos;s Walk &nbsp;·&nbsp; Playa Vista, CA → Manhattan, NY
         </p>
         {lastSyncedAt && (
-          <p style={{ fontSize: 11, color: '#3D4440', margin: '8px 0 0', letterSpacing: '0.02em' }}>
+          <p style={{ fontSize: 11, color: '#55524C', margin: '8px 0 0', letterSpacing: '0.02em' }}>
             {`Last synced ${new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).format(parseISO(lastSyncedAt))} PT`}
           </p>
         )}

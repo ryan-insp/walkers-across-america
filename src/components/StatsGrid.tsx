@@ -32,7 +32,7 @@ export default function StatsGrid({
   milesToNextCheckpoint = null,
 }: StatsGridProps) {
   const cardStyle: React.CSSProperties = {
-    background: '#151917',
+    background: '#151517',
     border: '1px solid rgba(255,255,255,0.06)',
     borderRadius: 20,
     padding: 24,
@@ -44,24 +44,25 @@ export default function StatsGrid({
     fontSize: 12,
     letterSpacing: '0.14em',
     textTransform: 'uppercase',
-    color: '#7C8481',
+    color: '#8A867E',
     fontWeight: 600,
     marginBottom: 18
   }
 
   const valueStyle: React.CSSProperties = {
+    fontFamily: 'var(--font-display), var(--font-inter), sans-serif',
     fontSize: 'clamp(2rem, 4vw, 2.5rem)',
     lineHeight: 1,
     letterSpacing: '-0.04em',
     fontWeight: 700,
-    color: '#F5F7F6',
+    color: '#F4F1EA',
     marginBottom: 12
   }
 
   const subStyle: React.CSSProperties = {
     fontSize: 16,
     lineHeight: 1.45,
-    color: '#8A9390'
+    color: '#ABA69C'
   }
 
   return (
@@ -73,16 +74,7 @@ export default function StatsGrid({
         padding: '8px 24px 48px 24px'
       }}
     >
-      <div
-        style={{
-          fontSize: 12,
-          letterSpacing: '0.16em',
-          textTransform: 'uppercase',
-          color: '#6B726F',
-          fontWeight: 500,
-          marginBottom: 16
-        }}
-      >
+      <div className="section-label">
         2026 Stats
       </div>
 
@@ -123,7 +115,7 @@ export default function StatsGrid({
               lineHeight: 1.08,
               letterSpacing: '-0.03em',
               fontWeight: 700,
-              color: '#F5F7F6',
+              color: '#F4F1EA',
               marginBottom: 10
             }}
           >
@@ -142,7 +134,7 @@ export default function StatsGrid({
             style={{
               fontSize: 15,
               lineHeight: 1.45,
-              color: '#8A9390',
+              color: '#ABA69C',
               marginTop: 6
             }}
           >
@@ -166,7 +158,7 @@ export default function StatsGrid({
               lineHeight: 1,
               letterSpacing: '-0.04em',
               fontWeight: 700,
-              color: '#F5F7F6',
+              color: '#F4F1EA',
               marginBottom: 10
             }}
           >
@@ -174,7 +166,7 @@ export default function StatsGrid({
           </div>
           <div style={subStyle}>{currentPositionSubtitle}</div>
           {nextCheckpointName && milesToNextCheckpoint !== null && (
-            <div style={{ fontSize: 13, color: '#6B726F', marginTop: 8 }}>
+            <div style={{ fontSize: 13, color: '#8A867E', marginTop: 8 }}>
               {milesToNextCheckpoint.toFixed(0)} mi to {nextCheckpointName}
             </div>
           )}

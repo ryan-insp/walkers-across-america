@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-10">
           <span className="text-accent text-3xl">◈</span>
           <p className="text-text-muted text-xs uppercase tracking-widest mt-2">Admin Access</p>
-          <h1 className="text-text-primary text-xl font-bold mt-1">Ryan&apos;s Walker 2026</h1>
+          <h1 className="text-text-primary text-xl font-bold mt-1">Ryan&apos;s Walk</h1>
         </div>
 
         {sent ? (

@@ -6,47 +6,56 @@ export default function Nav() {
   return (
     <header
       style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
         width: '100%',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
-        background: '#0B0F0E',
+        background: 'rgba(11,11,12,0.82)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
       }}
     >
       <div
         style={{
           maxWidth: 1200,
           margin: '0 auto',
-          padding: '12px 24px',
+          padding: '14px 24px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: 16,
         }}
       >
-        <img
-          src="/logo.png"
-          alt="Ryan's Walk Across America 2026"
-          style={{
-            height: 72,
-            width: 'auto',
-            display: 'block',
-          }}
-        />
+        <a href="/" aria-label="Ryan's Walk — home" style={{ display: 'block', flexShrink: 1, minWidth: 0 }}>
+          {/* Full lockup on wider screens, just the route mark on phones */}
+          <picture>
+            <source media="(max-width: 480px)" srcSet="/brand/mark.png" />
+            <img
+              src="/brand/lockup.png"
+              alt="Ryan's Walk"
+              className="site-nav-logo"
+              style={{ height: 34, width: 'auto', maxWidth: '100%', display: 'block' }}
+            />
+          </picture>
+        </a>
 
         <nav
           className="site-nav"
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 16,
+            gap: 20,
             fontSize: 14,
-            color: '#8A9390',
+            fontWeight: 500,
+            color: '#ABA69C',
             flexShrink: 0,
           }}
         >
-          <a href="#map" style={{ textDecoration: 'none', color: 'inherit' }}>Map</a>
-          <a href="#stats" style={{ textDecoration: 'none', color: 'inherit' }}>Stats</a>
-          <a href="#postcards" style={{ textDecoration: 'none', color: 'inherit' }}>Postcards</a>
-          <a href="/admin" className="site-nav-admin" style={{ textDecoration: 'none', color: 'inherit' }}>Admin →</a>
+          <a href="#map" className="site-nav-link">Map</a>
+          <a href="#stats" className="site-nav-link">Stats</a>
+          <a href="#postcards" className="site-nav-link">Postcards</a>
+          <a href="/admin" className="site-nav-link site-nav-admin">Admin →</a>
         </nav>
       </div>
     </header>

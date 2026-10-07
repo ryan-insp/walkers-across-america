@@ -8,6 +8,8 @@
     --border: rgba(255, 255, 255, 0.06);
     --border-hover: rgba(255, 255, 255, 0.10);
     --green: #2EFF8B;
+    --orange: #EE4417;
+    --cream: #F4F1EA;
     --green-dark: #1DBE6A;
   }
 
@@ -20,16 +22,16 @@
   }
 
   body {
-    background-color: #0B0D0C;
-    color: #F5F7F6;
+    background-color: #0B0B0C;
+    color: #F4F1EA;
     font-family: var(--font-inter);
   }
 
   /* Mapbox overrides */
   .mapboxgl-map { font-family: var(--font-inter) !important; }
   .mapboxgl-popup-content {
-    background: #151917 !important;
-    color: #F5F7F6 !important;
+    background: #151517 !important;
+    color: #F4F1EA !important;
     border: 1px solid rgba(255,255,255,0.08) !important;
     border-radius: 12px !important;
     padding: 10px 14px !important;
@@ -38,14 +40,14 @@
   }
   .mapboxgl-popup-tip { display: none !important; }
   .mapboxgl-popup-close-button {
-    color: #6B726F !important;
+    color: #8A867E !important;
     font-size: 16px !important;
     padding: 4px 8px !important;
   }
   .mapboxgl-ctrl-logo { opacity: 0.25 !important; filter: invert(1) !important; }
   .mapboxgl-ctrl-attrib { opacity: 0.25 !important; filter: invert(1) !important; }
   .mapboxgl-ctrl-group {
-    background: rgba(21,25,23,0.9) !important;
+    background: rgba(21,21,23,0.9) !important;
     border: 1px solid rgba(255,255,255,0.08) !important;
     border-radius: 10px !important;
     overflow: hidden;
@@ -381,7 +383,7 @@
   color: #2EFF8B;
   margin-top: 6px;
 }
-.postcard-next-hint { font-size: 12px; color: #6B726F; }
+.postcard-next-hint { font-size: 12px; color: #8A867E; }
 
 @media (prefers-reduced-motion: reduce) {
   .postcard-inner, .postcard-tilt { transition: none; }
@@ -389,6 +391,31 @@
 
 /* Keep the nav on one line on phones */
 @media (max-width: 480px) {
-  .site-nav { gap: 12px !important; font-size: 13px !important; }
+  .site-nav { gap: 14px !important; font-size: 13px !important; }
   .site-nav-admin { display: none; }
+  .site-nav-logo { height: 26px !important; }
 }
+.site-nav-link { color: inherit; text-decoration: none; transition: color 0.15s ease; }
+.site-nav-link:hover { color: #F4F1EA; }
+
+/* ── Brand: section labels, display type ────────────────── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ABA69C;
+  margin-bottom: 14px;
+}
+.section-label::before {
+  content: '';
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--orange);
+  flex-shrink: 0;
+}
+.font-display { font-family: var(--font-display), var(--font-inter), system-ui, sans-serif; }

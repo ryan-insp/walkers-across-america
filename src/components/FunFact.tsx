@@ -48,7 +48,7 @@ export default function FunFact({ location }: FunFactProps) {
             right: 32,
             fontSize: 120,
             lineHeight: 1,
-            color: 'rgba(76,175,130,0.08)',
+            color: 'rgba(238,68,23,0.12)',
             fontFamily: 'Georgia, serif',
             userSelect: 'none',
           }}
@@ -61,7 +61,7 @@ export default function FunFact({ location }: FunFactProps) {
             fontSize: 11,
             letterSpacing: '0.14em',
             textTransform: 'uppercase',
-            color: '#4CAF82',
+            color: '#EE4417',
             margin: '0 0 20px',
             fontWeight: 600,
           }}
@@ -73,7 +73,7 @@ export default function FunFact({ location }: FunFactProps) {
           style={{
             fontSize: 19,
             lineHeight: 1.7,
-            color: '#C8D4CC',
+            color: '#DDD8CD',
             margin: 0,
             fontStyle: 'italic',
             fontWeight: 300,

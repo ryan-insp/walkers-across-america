@@ -1,3 +1,5 @@
+import { readFile } from 'fs/promises'
+import path from 'path'
 import { ImageResponse } from 'next/og'
 import { createServiceClient } from '@/lib/supabase/server'
 import { computeProgress } from '@/lib/progress'
@@ -7,7 +9,7 @@ import type { Challenge, DailyActivity, RoutePoint } from '@/lib/types'
 
 // Link preview card for texts and social posts — refreshed with the page
 export const revalidate = 300
-export const alt = "Ryan's Walk Across America 2026 — live progress"
+export const alt = "Ryan's Walk — live progress from Playa Vista to Manhattan"
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -72,6 +74,7 @@ export default async function Image() {
     : { walked: [], remaining: [], position: { lat: 33.9752, lng: -118.425 } }
   const [px, py] = project([position.lng, position.lat])
   const pct = Math.min(100, progress.percent_complete)
+  const lockup = `data:image/png;base64,${(await readFile(path.join(process.cwd(), 'public/brand/lockup.png'))).toString('base64')}`
 
   return new ImageResponse(
     (
@@ -81,18 +84,21 @@ export default async function Image() {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          background: '#0B0D0C',
-          color: '#F5F7F6',
+          background: '#0B0B0C',
+          color: '#F4F1EA',
           padding: '48px 70px 40px',
           fontFamily: 'sans-serif',
         }}
       >
-        <div style={{ display: 'flex', fontSize: 22, letterSpacing: 4, color: '#6B726F', textTransform: 'uppercase', lineHeight: 1.4, marginBottom: 8 }}>
-          Playa Vista, CA → Manhattan, NY
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+          <img src={lockup} height={52} width={Math.round((52 * 858) / 126)} />
+          <span style={{ fontSize: 20, letterSpacing: 4, color: '#EE4417', textTransform: 'uppercase' }}>
+            Playa Vista → Manhattan
+          </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 34 }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontSize: 44, fontWeight: 700 }}>Ryan&apos;s Walk Across America</div>
             <div style={{ display: 'flex', alignItems: 'baseline', marginTop: 6 }}>
               <span style={{ fontSize: 108, fontWeight: 800, color: '#2EFF8B', letterSpacing: -4, lineHeight: 1 }}>
                 {Math.round(progress.total_miles).toLocaleString('en-US')}
@@ -103,7 +109,7 @@ export default async function Image() {
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginBottom: 8 }}>
-            <span style={{ fontSize: 20, letterSpacing: 3, color: '#6B726F', textTransform: 'uppercase' }}>Now in</span>
+            <span style={{ fontSize: 20, letterSpacing: 3, color: '#8A867E', textTransform: 'uppercase' }}>Now in</span>
             <span style={{ fontSize: 40, fontWeight: 700 }}>{location.split(',').slice(0, 2).join(',')}</span>
           </div>
         </div>
@@ -111,7 +117,7 @@ export default async function Image() {
         <div style={{ display: 'flex', width: '100%', height: 12, background: 'rgba(255,255,255,0.08)', borderRadius: 6, marginTop: 22 }}>
           <div style={{ display: 'flex', width: `${pct}%`, height: 12, background: '#2EFF8B', borderRadius: 6 }} />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 20, color: '#6B726F', marginTop: 8 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 20, color: '#8A867E', marginTop: 8 }}>
           <span>{pct.toFixed(1)}% complete</span>
           <span>ryanswalk.com</span>
         </div>
@@ -124,11 +130,11 @@ export default async function Image() {
               const [cx, cy] = project([p.lng, p.lat])
               return <circle key={p.order_index} cx={cx} cy={cy} r={5} fill={p.cumulative_mile_marker <= progress.total_miles ? '#2EFF8B' : 'rgba(255,255,255,0.35)'} />
             })}
-            <circle cx={px} cy={py} r={16} fill="rgba(46,255,139,0.25)" />
-            <circle cx={px} cy={py} r={8} fill="#F5F7F6" />
+            <circle cx={px} cy={py} r={17} fill="rgba(238,68,23,0.3)" />
+            <circle cx={px} cy={py} r={9} fill="#EE4417" stroke="#0B0B0C" strokeWidth={3} />
           </svg>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 20, color: '#6B726F', marginTop: -6 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 20, color: '#8A867E', marginTop: -6 }}>
           <span>Los Angeles</span>
           <span>New York</span>
         </div>

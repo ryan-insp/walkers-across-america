@@ -20,16 +20,7 @@ export default function MapSection({ progress, routePoints }: MapSectionProps) {
         padding: '0 24px 40px 24px'
       }}
     >
-      <div
-        style={{
-          fontSize: 12,
-          letterSpacing: '0.16em',
-          textTransform: 'uppercase',
-          color: '#6B726F',
-          fontWeight: 500,
-          marginBottom: 12
-        }}
-      >
+      <div className="section-label">
         Route Map
       </div>
 
@@ -39,7 +30,7 @@ export default function MapSection({ progress, routePoints }: MapSectionProps) {
           borderRadius: 24,
           overflow: 'hidden',
           border: '1px solid rgba(255,255,255,0.06)',
-          background: '#151917',
+          background: '#151517',
           boxShadow: '0 16px 40px rgba(0,0,0,0.24)'
         }}
       >
@@ -61,7 +52,7 @@ export default function MapSection({ progress, routePoints }: MapSectionProps) {
         }
 
         .mapboxgl-ctrl-group {
-          background: rgba(17, 20, 19, 0.88) !important;
+          background: rgba(20, 20, 22, 0.88) !important;
           border: 1px solid rgba(255, 255, 255, 0.08) !important;
           border-radius: 16px !important;
           overflow: hidden !important;
@@ -89,16 +80,16 @@ export default function MapSection({ progress, routePoints }: MapSectionProps) {
         }
 
         .mapboxgl-popup-content {
-          background: rgba(17, 20, 19, 0.96) !important;
-          color: #f5f7f6 !important;
+          background: rgba(20, 20, 22, 0.96) !important;
+          color: #F4F1EA !important;
           border: 1px solid rgba(255, 255, 255, 0.08) !important;
           border-radius: 16px !important;
           box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28) !important;
         }
 
         .mapboxgl-popup-tip {
-          border-top-color: rgba(17, 20, 19, 0.96) !important;
-          border-bottom-color: rgba(17, 20, 19, 0.96) !important;
+          border-top-color: rgba(20, 20, 22, 0.96) !important;
+          border-bottom-color: rgba(20, 20, 22, 0.96) !important;
         }
 
         .mapboxgl-ctrl-logo,
@@ -108,13 +99,13 @@ export default function MapSection({ progress, routePoints }: MapSectionProps) {
         }
 
         .mapboxgl-ctrl-attrib {
-          background: rgba(17, 20, 19, 0.72) !important;
-          color: rgba(245, 247, 246, 0.72) !important;
+          background: rgba(20, 20, 22, 0.72) !important;
+          color: rgba(244, 241, 234, 0.72) !important;
           border-radius: 10px 0 0 0 !important;
         }
 
         .mapboxgl-ctrl-attrib a {
-          color: rgba(245, 247, 246, 0.72) !important;
+          color: rgba(244, 241, 234, 0.72) !important;
         }
 
         .mapboxgl-canvas {

@@ -78,22 +78,13 @@ export default function ActivityCalendar({ stats, year, today, dailyGoalMiles }:
 
   return (
     <section id="activity" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 56px' }}>
-      <div
-        style={{
-          fontSize: 12,
-          letterSpacing: '0.16em',
-          textTransform: 'uppercase',
-          color: '#6B726F',
-          fontWeight: 500,
-          marginBottom: 12,
-        }}
-      >
+      <div className="section-label">
         Every Day of {year}
       </div>
 
       <div
         style={{
-          background: '#151917',
+          background: '#151517',
           border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: 20,
           padding: 24,
@@ -110,13 +101,13 @@ export default function ActivityCalendar({ stats, year, today, dailyGoalMiles }:
         >
           {tiles.map((t) => (
             <div key={t.label}>
-              <div style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7C8481', fontWeight: 600 }}>
+              <div style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8A867E', fontWeight: 600 }}>
                 {t.label}
               </div>
-              <div style={{ fontSize: 24, fontWeight: 700, color: '#F5F7F6', letterSpacing: '-0.03em', marginTop: 6 }}>
+              <div style={{ fontSize: 24, fontWeight: 700, color: '#F4F1EA', letterSpacing: '-0.03em', marginTop: 6 }}>
                 {t.value}
               </div>
-              <div style={{ fontSize: 12, color: '#6B726F', marginTop: 2 }}>{t.sub}</div>
+              <div style={{ fontSize: 12, color: '#8A867E', marginTop: 2 }}>{t.sub}</div>
             </div>
           ))}
         </div>
@@ -136,7 +127,7 @@ export default function ActivityCalendar({ stats, year, today, dailyGoalMiles }:
               m ? (
                 <div
                   key={`m${i}`}
-                  style={{ gridColumn: i + 2, gridRow: 1, fontSize: 10, color: '#6B726F', whiteSpace: 'nowrap', paddingBottom: 3 }}
+                  style={{ gridColumn: i + 2, gridRow: 1, fontSize: 10, color: '#8A867E', whiteSpace: 'nowrap', paddingBottom: 3 }}
                 >
                   {m}
                 </div>
@@ -145,7 +136,7 @@ export default function ActivityCalendar({ stats, year, today, dailyGoalMiles }:
             {['Mon', '', 'Wed', '', 'Fri', '', ''].map((d, i) => (
               <div
                 key={`d${i}`}
-                style={{ gridColumn: 1, gridRow: i + 2, fontSize: 10, color: '#6B726F', display: 'flex', alignItems: 'center' }}
+                style={{ gridColumn: 1, gridRow: i + 2, fontSize: 10, color: '#8A867E', display: 'flex', alignItems: 'center' }}
               >
                 {d}
               </div>
@@ -165,7 +156,7 @@ export default function ActivityCalendar({ stats, year, today, dailyGoalMiles }:
                       borderRadius: 3,
                       // Days outside the year keep the grid a clean rectangle
                       background: c.inYear ? cellColor(miles, dailyGoalMiles, future) : 'rgba(255,255,255,0.02)',
-                      outline: c.date === today ? '1px solid rgba(245,247,246,0.6)' : undefined,
+                      outline: c.date === today ? '1px solid rgba(244,241,234,0.6)' : undefined,
                     }}
                   />
                 )
@@ -174,7 +165,7 @@ export default function ActivityCalendar({ stats, year, today, dailyGoalMiles }:
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 16, fontSize: 11, color: '#6B726F', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 16, fontSize: 11, color: '#8A867E', flexWrap: 'wrap' }}>
           <span>Less</span>
           {[0, 2, 4, 7, 10, 14].map((m) => (
             <span key={m} style={{ width: CELL, height: CELL, borderRadius: 3, background: cellColor(m, dailyGoalMiles, false) }} />

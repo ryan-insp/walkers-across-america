@@ -21,16 +21,7 @@ export default function CityPhoto({
         padding: '0 24px 40px 24px',
       }}
     >
-      <div
-        style={{
-          fontSize: 12,
-          letterSpacing: '0.16em',
-          textTransform: 'uppercase',
-          color: '#6B726F',
-          fontWeight: 500,
-          marginBottom: 12,
-        }}
-      >
+      <div className="section-label">
         Currently In
       </div>
 
@@ -74,7 +65,7 @@ export default function CityPhoto({
             style={{
               fontSize: 22,
               fontWeight: 700,
-              color: '#F5F7F6',
+              color: '#F4F1EA',
               letterSpacing: '-0.02em',
             }}
           >
