@@ -17,7 +17,7 @@ export default function MilestonesFeed({ milestones }: MilestonesFeedProps) {
   if (milestones.length === 0) return null
 
   return (
-    <section style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 88px' }}>
+    <section style={{ maxWidth: 'var(--site-max)', margin: '0 auto', padding: '0 var(--site-gutter) 88px' }}>
       <div className="section-label">Milestones</div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

@@ -15,9 +15,9 @@ export default function MapSection({ progress, routePoints }: MapSectionProps) {
     <section
       id="map"
       style={{
-        maxWidth: 1200,
+        maxWidth: 'var(--site-max)',
         margin: '0 auto',
-        padding: '0 24px 40px 24px'
+        padding: '0 var(--site-gutter) 40px var(--site-gutter)'
       }}
     >
       <div className="section-label">
@@ -36,7 +36,7 @@ export default function MapSection({ progress, routePoints }: MapSectionProps) {
       >
         <div
           style={{
-            height: 500,
+            height: 'clamp(420px, 38vw, 640px)',
             width: '100%',
             position: 'relative'
           }}

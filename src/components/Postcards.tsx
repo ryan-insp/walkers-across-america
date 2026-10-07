@@ -28,7 +28,7 @@ export default function Postcards({ postcards, totalCities, nextStop }: Postcard
   if (postcards.length === 0 && !nextStop) return null
 
   return (
-    <section id="postcards" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 80px' }}>
+    <section id="postcards" style={{ maxWidth: 'var(--site-max)', margin: '0 auto', padding: '0 var(--site-gutter) 80px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', marginBottom: 20 }}>
         <div className="section-label">
           Postcards From the Road

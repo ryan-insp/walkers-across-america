@@ -69,9 +69,9 @@ export default function StatsGrid({
     <section
       id="stats"
       style={{
-        maxWidth: 1200,
+        maxWidth: 'var(--site-max)',
         margin: '0 auto',
-        padding: '8px 24px 48px 24px'
+        padding: '8px var(--site-gutter) 48px var(--site-gutter)'
       }}
     >
       <div className="section-label">
@@ -79,11 +79,7 @@ export default function StatsGrid({
       </div>
 
       <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 20
-        }}
+        className="stats-grid"
       >
         {/* Miles Walked */}
         <div style={cardStyle}>

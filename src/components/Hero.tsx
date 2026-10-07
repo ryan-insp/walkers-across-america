@@ -20,7 +20,7 @@ export default function Hero({
   const pct = Math.min(100, Math.max(0, percentComplete))
 
   return (
-    <section style={{ maxWidth: 1200, margin: '0 auto', padding: '48px 24px 40px' }}>
+    <section style={{ maxWidth: 'var(--site-max)', margin: '0 auto', padding: '48px var(--site-gutter) 40px' }}>
       <div className="section-label" style={{ color: '#EE4417' }}>
         Playa Vista, CA → Manhattan, NY · 2026
       </div>

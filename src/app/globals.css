@@ -9,6 +9,8 @@
     --border-hover: rgba(255, 255, 255, 0.10);
     --green: #2EFF8B;
     --orange: #EE4417;
+    --site-max: 1600px;
+    --site-gutter: clamp(16px, 3.5vw, 56px);
     --cream: #F4F1EA;
     --green-dark: #1DBE6A;
   }
@@ -103,7 +105,7 @@
 /* ── Retro postcards ─────────────────────────────────────── */
 .postcard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 28px 24px;
 }
 .postcard-tilt { transition: transform 0.25s ease; }
@@ -419,3 +421,9 @@
   flex-shrink: 0;
 }
 .font-display { font-family: var(--font-display), var(--font-inter), system-ui, sans-serif; }
+
+/* Stat cards: 1 → 2 → 3 columns, all six in one row on wide laptops */
+.stats-grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1440px) { .stats-grid { grid-template-columns: repeat(6, 1fr); gap: 16px; } }

@@ -77,7 +77,7 @@ export default function ActivityCalendar({ stats, year, today, dailyGoalMiles }:
   ]
 
   return (
-    <section id="activity" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 56px' }}>
+    <section id="activity" style={{ maxWidth: 'var(--site-max)', margin: '0 auto', padding: '0 var(--site-gutter) 56px' }}>
       <div className="section-label">
         Every Day of {year}
       </div>

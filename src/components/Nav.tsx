@@ -18,9 +18,9 @@ export default function Nav() {
     >
       <div
         style={{
-          maxWidth: 1200,
+          maxWidth: 'var(--site-max)',
           margin: '0 auto',
-          padding: '14px 24px',
+          padding: '14px var(--site-gutter)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',

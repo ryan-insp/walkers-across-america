@@ -24,9 +24,9 @@ export default function FunFact({ location }: FunFactProps) {
   return (
     <section
       style={{
-        maxWidth: 1200,
+        maxWidth: 'var(--site-max)',
         margin: '0 auto',
-        padding: '0 24px 80px',
+        padding: '0 var(--site-gutter) 80px',
       }}
     >
       <div

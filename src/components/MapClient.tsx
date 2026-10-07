@@ -44,10 +44,9 @@ export default function MapClient({ routePoints, progress }: MapClientProps) {
     geometry: { type: 'LineString' as const, coordinates: remainingCoords },
   }
 
-  const mapHeight = 480
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: mapHeight }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <Map
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         initialViewState={center}
